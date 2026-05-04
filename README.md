@@ -52,8 +52,6 @@ Some originally planned features were not successfully implemented due to techni
 - **Animation texture optimization**: Visibility tracking not connected to rendering pipeline
 - **Atlas repacking**: Optimization analysis runs but results are not applied
 
-These incomplete features are preserved in the codebase for potential future development by contributors.
-
 ## Requirements
 
 - Minecraft 26.1.x
