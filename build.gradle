@@ -1,0 +1,133 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+	id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+repositories {
+	flatDir {
+		dirs "libs"
+	}
+	maven { url "https://api.modrinth.com/maven" }
+	maven { url "https://maven.shedaniel.me" }
+	maven { url "https://maven.terraformersmc.com/releases" }
+	exclusiveContent {
+		forRepository {
+			maven { url "https://maven.blamejared.com" }
+		}
+		filter {
+			includeGroup "mezz.jei"
+		}
+	}
+}
+
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"vram_killer" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+
+		runs {
+			client {
+				client()
+				name "Minecraft Client"
+				configName "client"
+				runDir "run"
+				
+				property "fabric.log.level", "info"
+				property "mixin.env.remapRefMap", "true"
+				
+				vmArg "-Xmx4G"
+				vmArg "-XX:HeapBaseMinAddress=4G"
+				vmArg "-XX:MaxMetaspaceSize=1G"
+				vmArg "-XX:ReservedCodeCacheSize=512M"
+				vmArg "-XX:+UseG1GC"
+				vmArg "-XX:InitiatingHeapOccupancyPercent=30"
+				vmArg "-XX:+UseStringDeduplication"
+				vmArg "-XX:CICompilerCount=2"
+			}
+		
+		server {
+			server()
+			name "Minecraft Server"
+			configName "server"
+			runDir "run"
+		}
+	}
+	
+	decompilers {
+		vineflower {
+		options.put("ind", "    ")
+		options.put("asc", "true")
+		}
+	}
+}
+
+configurations {
+	modImplementation.extendsFrom implementation
+	include.extendsFrom implementation
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	
+	modImplementation files("libs/sodium-fabric-0.8.9+mc26.1.1.jar")
+	clientImplementation files("libs/sodium-fabric-0.8.9+mc26.1.1.jar")
+	
+	localRuntime files("libs/iris-fabric-1.10.9+mc26.1.1.jar")
+	localRuntime files("libs/modmenu-18.0.0-alpha.8.jar")
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+	def projectName = project.name
+	inputs.property "projectName", projectName
+
+	from("LICENSE") {
+		rename { "${it}_$projectName"}
+	}
+}
+
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			from components.java
+		}
+	}
+
+	repositories {
+		mavenLocal()
+	}
+}

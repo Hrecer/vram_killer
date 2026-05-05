@@ -10,16 +10,29 @@ This project is dedicated to the public domain. You can freely use, modify, dist
 
 See [LICENSE](LICENSE) for the full legal text.
 
-## Implemented Features
-
-The following features are **fully implemented and functional**:
+## Features
 
 ### Texture Compression
 - BC1 (DXT1) compression for opaque textures
 - BC3 (DXT5) compression for textures with alpha channel
 - BC5 compression for normal maps
+- BC7 high-quality compression with Mode 6 encoding
 - Multi-threaded compression pipeline
 - Automatic format selection based on texture type
+- Disk cache for compressed textures
+
+### Texture Scheduling
+- Hot/Warm/Cold zone classification for textures
+- Path-based zone assignment (blocks/items → Hot, entities/mobs → Warm)
+- Dynamic eviction thresholds based on VRAM pressure
+- Intel GPU aware eviction (conservative thresholds for shared memory)
+- Grace period for newly loaded textures
+
+### VRAM Monitoring
+- NVIDIA GPU support via `nvidia-smi` (Windows)
+- NVIDIA GPU support via `GL_NVX_gpu_memory_info`
+- AMD GPU support via `GL_ATI_meminfo`
+- Background monitoring with failure backoff
 
 ### Leak Detection
 - Tracks texture creation and destruction
@@ -27,38 +40,26 @@ The following features are **fully implemented and functional**:
 - Configurable detection thresholds
 - Optional auto-cleanup of orphaned textures
 
-### Texture Tracking
-- Monitors texture memory usage estimates
-- Hot/Warm/Cold zone classification for textures
-- Access pattern tracking for eviction decisions
-
-### VRAM Monitoring
-- NVIDIA GPU support via `GL_NVX_gpu_memory_info`
-- AMD GPU support via `GL_ATI_meminfo`
-- Windows NVIDIA support via `nvidia-smi`
-- Real-time VRAM usage display in debug overlay
-
 ### Debug Overlay
-- F3 debug screen integration
-- Shows VRAM usage percentage
+- F3 debug screen integration (press F3+V to toggle VRAM panel)
+- Shows VRAM usage percentage and bar
 - Displays compression statistics
 - Shows texture zone distribution
+- Leak detection status
 
-## Known Limitations
-
-Some originally planned features were not successfully implemented due to technical challenges:
-
-- **Dynamic shadow resolution**: Calculated but not applied to actual rendering
-- **Animation texture optimization**: Visibility tracking not connected to rendering pipeline
-- **Atlas repacking**: Optimization analysis runs but results are not applied
+### Compatibility
+- Sodium integration
+- Iris shader pack support
+- Dynamic shadow resolution optimization for Iris
 
 ## Requirements
 
 - Minecraft 26.1.x
-- Fabric Loader 0.18.4+
+- Fabric Loader 0.19.2+
 - Java 25+
 - Fabric API
-- Sodium 0.8.0+
+- Sodium 0.8.0+ (recommended)
+- Iris (optional, for shader support)
 
 ## Configuration
 
@@ -100,7 +101,6 @@ The output JAR will be in `build/libs/`.
 This project is in the public domain (CC0). Feel free to:
 
 - Fix bugs
-- Implement incomplete features
 - Add new compression formats
 - Improve documentation
 - Port to other Minecraft versions
