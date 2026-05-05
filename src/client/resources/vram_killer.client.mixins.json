@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "com.vram_killer.client.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "client.MinecraftClientMixin",
+    "client.FramebufferMixin",
+    "client.TextureManagerMixin",
+    "client.DynamicTextureMixin",
+    "client.GlStateManagerMixin",
+    "client.GuiMixin",
+    "atlas.SpriteAtlasTextureMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

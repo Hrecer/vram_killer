@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "vram_killer",
+  "version": "${version}",
+  "name": "VRAM Killer",
+  "description": "VRAM optimization mod for Minecraft with BCn compression and resource management",
+  "authors": ["VRAM Killer Team"],
+  "license": "CC0-1.0",
+  "icon": "assets/vram_killer/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.vram_killer.VRAMKiller"],
+    "client": ["com.vram_killer.client.VRAMKillerClient"],
+    "sodium:config_api_user": ["com.vram_killer.client.integration.VRAMKillerSodiumEntryPoint"]
+  },
+  "mixins": [
+    "vram_killer.mixins.json",
+    {
+      "config": "vram_killer.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~26.1",
+    "java": ">=25",
+    "fabric-api": "*",
+    "sodium": ">=0.8.0"
+  },
+  "recommends": {
+    "iris": ">=1.8.0",
+    "modmenu": ">=18.0.0"
+  },
+  "suggests": {
+    "lithium": ">=0.14.0"
+  },
+  "breaks": {
+    "optifabric": "*",
+    "optifine": "*"
+  }
+}
