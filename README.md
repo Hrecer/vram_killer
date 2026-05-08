@@ -1,6 +1,6 @@
 # VRAM Killer
 
-Minecraft Fabric mod for runtime VRAM optimization via **RGBA5551 (RGB5_A1) texture format conversion**.
+Minecraft Fabric mod for runtime VRAM optimization via **RGB5_A1 texture format conversion**.
 
 ## License
 
