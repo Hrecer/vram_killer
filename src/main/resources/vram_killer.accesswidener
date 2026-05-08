@@ -1,8 +1,0 @@
-accessWidener	v1
-accessible	class	net/minecraft/client/texture/NativeImage	method	upload (II)V
-accessible	class	net/minecraft/client/texture/NativeImageBackedTexture	method	getImage ()Lnet/minecraft/client/texture/NativeImage;
-accessible	class	net/minecraft/client/gl/TextureManager	method	register (Lnet/minecraft/util/Identifier;Lnet/minecraft/client/texture/AbstractTexture;)V
-accessible class net/minecraft/client/render/BufferBuilder method upload ()
-accessible class net/minecraft/client/render/BufferRenderer method drawWithShader (Lnet/minecraft/client/render/ShaderProgram;)
-accessible class com/mojang/blaze3d/platform/NativeImage field pointer J
-accessible class com/mojang/blaze3d/platform/NativeImage method getPointer ()J
